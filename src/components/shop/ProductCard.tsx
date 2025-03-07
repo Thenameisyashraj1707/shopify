@@ -1,11 +1,12 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ButtonCustom } from "@/components/ui/button-custom";
 import { Product, Category } from "@/types/product";
-import { ShoppingBag, Star, Heart } from "lucide-react";
+import { ShoppingBag, Star, Heart, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product | Category;
@@ -14,6 +15,8 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = false }) => {
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   
   const handleViewDetails = () => {
     if (isCategory) {
@@ -23,16 +26,49 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
     }
   };
 
+  const handleAddToFavorites = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFavorite(!isFavorite);
+    toast.success(isFavorite ? "Removed from favorites" : "Added to favorites");
+  };
+
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isCategory) {
+      navigate(`/product/${product.id}`);
+    }
+  };
+
   // For category cards
   if (isCategory) {
     return (
-      <Card className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col group">
+      <Card 
+        className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col group cursor-pointer"
+        onClick={handleViewDetails}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div className="aspect-square overflow-hidden relative">
           <img 
             src={product.image} 
             alt={product.name} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
           />
+          <div className={`absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+            <ButtonCustom 
+              variant="primary" 
+              size="sm" 
+              className="bg-white/90 text-primary hover:bg-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleViewDetails();
+              }}
+              icon={<Eye size={16} />}
+              iconPosition="left"
+            >
+              View Category
+            </ButtonCustom>
+          </div>
         </div>
         
         <CardContent className="p-4 flex-grow">
@@ -59,12 +95,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
   const productItem = product as Product;
   
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col group">
+    <Card 
+      className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col group cursor-pointer"
+      onClick={handleViewDetails}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="aspect-square overflow-hidden relative">
         <img 
           src={productItem.image} 
           alt={productItem.name} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
         />
         
         {!productItem.inStock && (
@@ -77,21 +118,42 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
         
         {productItem.inStock && (
           <>
-            <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white">
-              <Heart size={18} className="text-gray-700 hover:text-red-500 transition-colors" />
+            <button 
+              className={`absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'} hover:bg-white z-10`}
+              onClick={handleAddToFavorites}
+            >
+              <Heart 
+                size={18} 
+                className={isFavorite ? "text-red-500 fill-red-500" : "text-gray-700 hover:text-red-500 transition-colors"} 
+              />
             </button>
             
-            <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-              <ButtonCustom 
-                variant="primary" 
-                size="sm" 
-                className="w-full"
-                onClick={handleViewDetails}
-                icon={<ShoppingBag size={16} />}
-                iconPosition="left"
-              >
-                Quick View
-              </ButtonCustom>
+            <div className={`absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'} z-10`}>
+              <div className="flex gap-2">
+                <ButtonCustom 
+                  variant="primary" 
+                  size="sm" 
+                  className="w-full bg-white/90 text-primary hover:bg-white"
+                  onClick={handleQuickView}
+                  icon={<Eye size={16} />}
+                  iconPosition="left"
+                >
+                  Quick View
+                </ButtonCustom>
+                <ButtonCustom 
+                  variant="primary" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast.success(`${productItem.name} added to cart!`);
+                  }}
+                  icon={<ShoppingBag size={16} />}
+                  iconPosition="left"
+                >
+                  Add to Cart
+                </ButtonCustom>
+              </div>
             </div>
           </>
         )}

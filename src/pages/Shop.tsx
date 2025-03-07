@@ -4,11 +4,12 @@ import { AnimatedLayout } from "@/components/layout/AnimatedLayout";
 import { Logo } from "@/components/ui/logo";
 import { ButtonCustom } from "@/components/ui/button-custom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Search, Settings, ShoppingBag, User, ArrowRight } from "lucide-react";
+import { Bell, Search, Settings, ShoppingBag, User, ArrowRight, LogIn } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { categories, getProductById } from "@/data/products";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const mockUser = {
   name: "Alex Johnson",
@@ -18,9 +19,43 @@ const mockUser = {
 const Shop = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/category/${categoryId}`);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      toast.success(`Searching for: ${searchQuery}`);
+      // In a real app, we would navigate to search results page
+      // navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleNotificationsClick = () => {
+    toast.info("Notifications page coming soon!");
+    // navigate('/notifications');
+  };
+
+  const handleCartClick = () => {
+    toast.info("Shopping cart page coming soon!");
+    // navigate('/cart');
+  };
+
+  const handleSettingsClick = () => {
+    toast.info("Settings page coming soon!");
+    // navigate('/settings');
+  };
+
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      toast.info("Profile page coming soon!");
+      // navigate('/profile');
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -28,30 +63,49 @@ const Shop = () => {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Logo size="sm" />
+          <Logo size="sm" onClick={() => navigate('/')} className="cursor-pointer" />
           
           <div className="flex items-center space-x-4">
-            <button className="p-2 rounded-full hover:bg-secondary transition-colors relative">
+            <button 
+              className="p-2 rounded-full hover:bg-secondary transition-colors relative"
+              onClick={handleNotificationsClick}
+            >
               <Bell className="h-5 w-5 text-muted-foreground" />
               <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center bg-primary text-[10px]">
                 3
               </Badge>
             </button>
             
-            <button className="p-2 rounded-full hover:bg-secondary transition-colors">
+            <button 
+              className="p-2 rounded-full hover:bg-secondary transition-colors"
+              onClick={handleCartClick}
+            >
               <ShoppingBag className="h-5 w-5 text-muted-foreground" />
             </button>
             
-            <button className="p-2 rounded-full hover:bg-secondary transition-colors">
+            <button 
+              className="p-2 rounded-full hover:bg-secondary transition-colors"
+              onClick={handleSettingsClick}
+            >
               <Settings className="h-5 w-5 text-muted-foreground" />
             </button>
             
-            <Avatar>
-              <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
-              <AvatarFallback>
-                <User className="h-4 w-4" />
-              </AvatarFallback>
-            </Avatar>
+            {isLoggedIn ? (
+              <Avatar className="cursor-pointer" onClick={handleProfileClick}>
+                <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
+                <AvatarFallback>
+                  <User className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+            ) : (
+              <button 
+                className="flex items-center gap-1 text-sm font-medium px-3 py-1 rounded-full hover:bg-secondary transition-colors"
+                onClick={() => navigate('/login')}
+              >
+                <LogIn className="h-4 w-4" />
+                Login
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -59,7 +113,7 @@ const Shop = () => {
       <main className="pt-20 pb-16 px-4">
         <div className="container mx-auto">
           {/* Search bar */}
-          <div className="relative mb-8 max-w-2xl mx-auto">
+          <form onSubmit={handleSearch} className="relative mb-8 max-w-2xl mx-auto">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <input 
               type="text" 
@@ -68,7 +122,14 @@ const Shop = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+            <button 
+              type="submit" 
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 transition-colors"
+              aria-label="Search"
+            >
+              <Search className="h-5 w-5" />
+            </button>
+          </form>
 
           {/* Categories */}
           <div className="mb-10">
