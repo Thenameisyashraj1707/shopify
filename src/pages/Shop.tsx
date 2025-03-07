@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Search, Settings, ShoppingBag, User, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/shop/ProductCard";
-import { categories } from "@/data/products";
+import { categories, getProductById } from "@/data/products";
 import { useNavigate } from "react-router-dom";
 
 const mockUser = {
@@ -112,17 +112,19 @@ const Shop = () => {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 animate-fade-in">
-              {/* Just showing 4 featured products */}
+              {/* Get actual products from the data for featured section */}
               {[
-                {id: "e1", category: "electronics"}, 
-                {id: "m1", category: "men-fashion"}, 
-                {id: "w1", category: "women-fashion"}, 
-                {id: "h1", category: "home-kitchen"}
-              ].map(item => (
-                <ProductCard 
-                  key={item.id} 
-                  product={categories.find(c => c.id === item.category)!}
-                />
+                getProductById("e1"), 
+                getProductById("m1"), 
+                getProductById("w1"), 
+                getProductById("h1")
+              ].map(product => (
+                product && (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product}
+                  />
+                )
               ))}
             </div>
           </div>

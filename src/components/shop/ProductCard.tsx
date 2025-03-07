@@ -2,32 +2,72 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ButtonCustom } from "@/components/ui/button-custom";
-import { Product } from "@/types/product";
+import { Product, Category } from "@/types/product";
 import { ShoppingBag, Star, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 
 interface ProductCardProps {
-  product: Product;
+  product: Product | Category;
+  isCategory?: boolean;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = false }) => {
   const navigate = useNavigate();
   
   const handleViewDetails = () => {
-    navigate(`/product/${product.id}`);
+    if (isCategory) {
+      navigate(`/category/${product.id}`);
+    } else {
+      navigate(`/product/${product.id}`);
+    }
   };
 
+  // For category cards
+  if (isCategory) {
+    return (
+      <Card className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col group">
+        <div className="aspect-square overflow-hidden relative">
+          <img 
+            src={product.image} 
+            alt={product.name} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+        
+        <CardContent className="p-4 flex-grow">
+          <h3 className="font-medium text-center">{product.name}</h3>
+        </CardContent>
+        
+        <CardFooter className="p-4 pt-0">
+          <ButtonCustom 
+            variant="primary" 
+            size="sm" 
+            className="w-full"
+            onClick={handleViewDetails}
+            icon={<ShoppingBag size={16} />}
+            iconPosition="left"
+          >
+            Explore Products
+          </ButtonCustom>
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  // For product cards (original implementation)
+  const productItem = product as Product;
+  
   return (
     <Card className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col group">
       <div className="aspect-square overflow-hidden relative">
         <img 
-          src={product.image} 
-          alt={product.name} 
+          src={productItem.image} 
+          alt={productItem.name} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         
-        {!product.inStock && (
+        {!productItem.inStock && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span className="text-white font-semibold px-3 py-1 bg-red-500 rounded-full text-sm">
               Out of Stock
@@ -35,7 +75,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         )}
         
-        {product.inStock && (
+        {productItem.inStock && (
           <>
             <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white">
               <Heart size={18} className="text-gray-700 hover:text-red-500 transition-colors" />
@@ -57,11 +97,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )}
         
         {/* Discount/New badges if needed */}
-        {product.id.startsWith('e') && (
+        {productItem.id.startsWith('e') && (
           <Badge className="absolute top-3 left-3 bg-primary hover:bg-primary">New</Badge>
         )}
         
-        {product.id.startsWith('m') && (
+        {productItem.id.startsWith('m') && (
           <Badge className="absolute top-3 left-3 bg-red-500 hover:bg-red-600">-20%</Badge>
         )}
       </div>
@@ -72,39 +112,39 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <Star 
               key={i} 
               size={14} 
-              className={i < Math.floor(product.rating) ? "fill-amber-400 text-amber-400" : "text-gray-300"}
+              className={i < Math.floor(productItem.rating) ? "fill-amber-400 text-amber-400" : "text-gray-300"}
             />
           ))}
-          <span className="text-xs text-muted-foreground ml-1">({product.numReviews})</span>
+          <span className="text-xs text-muted-foreground ml-1">({productItem.numReviews})</span>
         </div>
         
         <h3 className="font-medium line-clamp-2 mb-1 transition-colors group-hover:text-primary">
-          {product.name}
+          {productItem.name}
         </h3>
         
         <div className="flex items-center gap-2">
-          <p className="font-semibold text-primary">${product.price.toFixed(2)}</p>
-          {product.id.startsWith('m') && (
-            <p className="text-sm line-through text-muted-foreground">${(product.price * 1.2).toFixed(2)}</p>
+          <p className="font-semibold text-primary">${productItem.price.toFixed(2)}</p>
+          {productItem.id.startsWith('m') && (
+            <p className="text-sm line-through text-muted-foreground">${(productItem.price * 1.2).toFixed(2)}</p>
           )}
         </div>
         
         <p className="text-xs text-muted-foreground line-clamp-2 mt-2">
-          {product.description}
+          {productItem.description}
         </p>
       </CardContent>
       
       <CardFooter className="p-4 pt-0">
         <ButtonCustom 
-          variant={product.inStock ? "primary" : "outline"} 
+          variant={productItem.inStock ? "primary" : "outline"} 
           size="sm" 
           className="w-full"
           onClick={handleViewDetails}
           icon={<ShoppingBag size={16} />}
           iconPosition="left"
-          disabled={!product.inStock}
+          disabled={!productItem.inStock}
         >
-          {product.inStock ? "View Details" : "Out of Stock"}
+          {productItem.inStock ? "View Details" : "Out of Stock"}
         </ButtonCustom>
       </CardFooter>
     </Card>
