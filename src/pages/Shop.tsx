@@ -4,10 +4,11 @@ import { AnimatedLayout } from "@/components/layout/AnimatedLayout";
 import { Logo } from "@/components/ui/logo";
 import { ButtonCustom } from "@/components/ui/button-custom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Search, Settings, ShoppingBag, User } from "lucide-react";
+import { Bell, Search, Settings, ShoppingBag, User, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/shop/ProductCard";
-import { categories, getProductsByCategory } from "@/data/products";
+import { categories } from "@/data/products";
+import { useNavigate } from "react-router-dom";
 
 const mockUser = {
   name: "Alex Johnson",
@@ -15,25 +16,17 @@ const mockUser = {
 };
 
 const Shop = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  
-  const products = selectedCategory 
-    ? getProductsByCategory(selectedCategory)
-    : [];
-    
-  // Filter products based on search query if there is one
-  const filteredProducts = searchQuery
-    ? products.filter(product => 
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : products;
+
+  const handleCategoryClick = (categoryId: string) => {
+    navigate(`/category/${categoryId}`);
+  };
 
   return (
     <AnimatedLayout withPadding={false}>
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Logo size="sm" />
           
@@ -71,7 +64,7 @@ const Shop = () => {
             <input 
               type="text" 
               placeholder="What do you want to shop?" 
-              className="w-full h-12 pl-10 pr-4 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+              className="w-full h-12 pl-10 pr-4 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all shadow-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -80,68 +73,79 @@ const Shop = () => {
           {/* Categories */}
           <div className="mb-10">
             <h2 className="text-2xl font-display mb-6 text-center">Browse Categories</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-5">
               {categories.map((category) => (
-                <button
+                <div
                   key={category.id}
-                  className={`flex flex-col items-center justify-center p-4 rounded-xl border transition-all
-                    ${selectedCategory === category.id 
-                      ? 'border-primary bg-primary/10' 
-                      : 'border-border hover:border-primary/30 hover:bg-primary/5'}`}
-                  onClick={() => setSelectedCategory(category.id)}
+                  className="flex flex-col items-center rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-[1.02] h-full"
+                  onClick={() => handleCategoryClick(category.id)}
                 >
-                  <span className="text-3xl mb-2">{category.icon}</span>
-                  <span className="text-sm font-medium">{category.name}</span>
-                </button>
+                  <div className="w-full aspect-square overflow-hidden">
+                    <img 
+                      src={category.image} 
+                      alt={category.name} 
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    />
+                  </div>
+                  <div className="w-full bg-white p-4 text-center">
+                    <h3 className="font-medium">{category.name}</h3>
+                    <span className="inline-flex items-center text-xs text-primary mt-1">
+                      Explore <ArrowRight className="ml-1 h-3 w-3" />
+                    </span>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Products or placeholder */}
-          {selectedCategory ? (
-            <>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-display">
-                  {categories.find(c => c.id === selectedCategory)?.name}
-                </h2>
-                {selectedCategory && (
-                  <ButtonCustom 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setSelectedCategory(null)}
-                  >
-                    Clear Selection
-                  </ButtonCustom>
-                )}
-              </div>
-              
-              {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {filteredProducts.map(product => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <h3 className="text-xl font-medium mb-2">No products found</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Try adjusting your search or browse a different category
-                  </p>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <h3 className="text-xl font-medium mb-2">Select a category to start shopping</h3>
-              <p className="text-muted-foreground mb-6">
-                Browse through our curated collections or search for specific items
-              </p>
-              
-              <ButtonCustom variant="primary" size="lg">
-                Explore Featured Products
+          {/* Featured Section */}
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-display">Featured Products</h2>
+              <ButtonCustom 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate('/shop')}
+              >
+                View All
               </ButtonCustom>
             </div>
-          )}
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 animate-fade-in">
+              {/* Just showing 4 featured products */}
+              {[
+                {id: "e1", category: "electronics"}, 
+                {id: "m1", category: "men-fashion"}, 
+                {id: "w1", category: "women-fashion"}, 
+                {id: "h1", category: "home-kitchen"}
+              ].map(item => (
+                <ProductCard 
+                  key={item.id} 
+                  product={categories.find(c => c.id === item.category)!}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Promotional Banner */}
+          <div className="rounded-xl overflow-hidden relative mb-10 shadow-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.0.3" 
+              alt="Special Offer" 
+              className="w-full h-64 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/70 to-transparent flex flex-col justify-center pl-10">
+              <h3 className="text-white text-3xl font-display mb-2">Summer Collection</h3>
+              <p className="text-white/90 mb-4 max-w-md">Discover our latest arrivals and enjoy exclusive discounts on selected items.</p>
+              <ButtonCustom 
+                variant="primary" 
+                className="bg-white text-primary hover:bg-white/90 w-auto inline-flex"
+                onClick={() => navigate('/shop')}
+              >
+                Shop Now
+              </ButtonCustom>
+            </div>
+          </div>
         </div>
       </main>
     </AnimatedLayout>

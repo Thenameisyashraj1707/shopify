@@ -1,13 +1,36 @@
-
 import { Product, Category } from "@/types/product";
 
 export const categories: Category[] = [
-  { id: "electronics", name: "Electronics", icon: "📱" },
-  { id: "men-fashion", name: "Men's Fashion", icon: "👔" },
-  { id: "women-fashion", name: "Women's Fashion", icon: "👗" },
-  { id: "home-kitchen", name: "Home & Kitchen", icon: "🏠" },
-  { id: "beauty-personal-care", name: "Beauty & Personal Care", icon: "✨" },
-  { id: "toys-games", name: "Toys & Games", icon: "🎮" }
+  { 
+    id: "electronics", 
+    name: "Electronics", 
+    image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "men-fashion", 
+    name: "Men's Fashion", 
+    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "women-fashion", 
+    name: "Women's Fashion", 
+    image: "https://images.unsplash.com/photo-1589810635657-232948472d98?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "home-kitchen", 
+    name: "Home & Kitchen", 
+    image: "https://images.unsplash.com/photo-1556911220-bda9f7f37446?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "beauty-personal-care", 
+    name: "Beauty & Personal Care", 
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "toys-games", 
+    name: "Toys & Games", 
+    image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  }
 ];
 
 export const products: Product[] = [

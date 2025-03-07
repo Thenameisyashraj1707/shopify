@@ -19,5 +19,6 @@ export interface Product {
 export interface Category {
   id: string;
   name: string;
-  icon: string;
+  image: string; // Changed from icon to image
 }
+
