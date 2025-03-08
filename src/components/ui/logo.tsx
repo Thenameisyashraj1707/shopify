@@ -4,9 +4,10 @@ import { cn } from "@/lib/utils";
 interface LogoProps {
   className?: string;
   size?: "sm" | "md" | "lg";
+  onClick?: () => void;
 }
 
-export function Logo({ className, size = "md" }: LogoProps) {
+export function Logo({ className, size = "md", onClick }: LogoProps) {
   const sizeClasses = {
     sm: "h-8",
     md: "h-10",
@@ -14,7 +15,10 @@ export function Logo({ className, size = "md" }: LogoProps) {
   };
 
   return (
-    <div className={cn("flex items-center", className)}>
+    <div 
+      className={cn("flex items-center", onClick && "cursor-pointer", className)} 
+      onClick={onClick}
+    >
       <svg
         className={cn("text-primary", sizeClasses[size])}
         width="32"
