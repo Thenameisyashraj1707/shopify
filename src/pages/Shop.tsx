@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Search, Settings, ShoppingBag, User, ArrowRight, LogIn } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/shop/ProductCard";
-import { categories, getProductById } from "@/data/products";
+import { categories, getProductById, getProductsByCategory } from "@/data/products";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -35,39 +35,40 @@ const Shop = () => {
   };
 
   const handleNotificationsClick = () => {
-    toast.info("Notifications page coming soon!");
-    // navigate('/notifications');
+    navigate('/notifications');
   };
 
   const handleCartClick = () => {
-    toast.info("Shopping cart page coming soon!");
-    // navigate('/cart');
+    navigate('/cart');
   };
 
   const handleSettingsClick = () => {
-    toast.info("Settings page coming soon!");
-    // navigate('/settings');
+    navigate('/settings');
   };
 
   const handleProfileClick = () => {
     if (isLoggedIn) {
-      toast.info("Profile page coming soon!");
-      // navigate('/profile');
+      navigate('/profile');
     } else {
       navigate('/login');
     }
   };
 
+  // Get a few products from each category for display
+  const getFeaturedProductsByCategory = (categoryId: string, count: number = 2) => {
+    return getProductsByCategory(categoryId).slice(0, count);
+  };
+
   return (
     <AnimatedLayout withPadding={false}>
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b shadow-sm">
+      {/* Header with gradient background */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 backdrop-blur-md border-b shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Logo size="sm" onClick={() => navigate('/')} className="cursor-pointer" />
           
           <div className="flex items-center space-x-4">
             <button 
-              className="p-2 rounded-full hover:bg-secondary transition-colors relative"
+              className="p-2 rounded-full hover:bg-white/20 transition-colors relative"
               onClick={handleNotificationsClick}
             >
               <Bell className="h-5 w-5 text-muted-foreground" />
@@ -77,14 +78,17 @@ const Shop = () => {
             </button>
             
             <button 
-              className="p-2 rounded-full hover:bg-secondary transition-colors"
+              className="p-2 rounded-full hover:bg-white/20 transition-colors relative"
               onClick={handleCartClick}
             >
               <ShoppingBag className="h-5 w-5 text-muted-foreground" />
+              <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center bg-primary text-[10px]">
+                3
+              </Badge>
             </button>
             
             <button 
-              className="p-2 rounded-full hover:bg-secondary transition-colors"
+              className="p-2 rounded-full hover:bg-white/20 transition-colors"
               onClick={handleSettingsClick}
             >
               <Settings className="h-5 w-5 text-muted-foreground" />
@@ -99,7 +103,7 @@ const Shop = () => {
               </Avatar>
             ) : (
               <button 
-                className="flex items-center gap-1 text-sm font-medium px-3 py-1 rounded-full hover:bg-secondary transition-colors"
+                className="flex items-center gap-1 text-sm font-medium px-3 py-1 rounded-full hover:bg-white/20 transition-colors"
                 onClick={() => navigate('/login')}
               >
                 <LogIn className="h-4 w-4" />
@@ -110,15 +114,15 @@ const Shop = () => {
         </div>
       </header>
 
-      <main className="pt-20 pb-16 px-4">
+      <main className="pt-20 pb-16 px-4 bg-gradient-to-b from-blue-50 to-white">
         <div className="container mx-auto">
-          {/* Search bar */}
+          {/* Search bar with enhanced styling */}
           <form onSubmit={handleSearch} className="relative mb-8 max-w-2xl mx-auto">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <input 
               type="text" 
               placeholder="What do you want to shop?" 
-              className="w-full h-12 pl-10 pr-4 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all shadow-sm"
+              className="w-full h-12 pl-10 pr-4 rounded-xl border border-border bg-white/80 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all shadow-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -131,14 +135,14 @@ const Shop = () => {
             </button>
           </form>
 
-          {/* Categories */}
+          {/* Categories with enhanced styling */}
           <div className="mb-10">
             <h2 className="text-2xl font-display mb-6 text-center">Browse Categories</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-5">
               {categories.map((category) => (
                 <div
                   key={category.id}
-                  className="flex flex-col items-center rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-[1.02] h-full"
+                  className="flex flex-col items-center rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-105 bg-white"
                   onClick={() => handleCategoryClick(category.id)}
                 >
                   <div className="w-full aspect-square overflow-hidden">
@@ -159,7 +163,7 @@ const Shop = () => {
             </div>
           </div>
 
-          {/* Featured Section */}
+          {/* Featured Section with more products */}
           <div className="mb-10">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-display">Featured Products</h2>
@@ -190,14 +194,60 @@ const Shop = () => {
             </div>
           </div>
 
-          {/* Promotional Banner */}
+          {/* Electronics Section */}
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-display">Electronics</h2>
+              <ButtonCustom 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate('/category/electronics')}
+              >
+                View All
+              </ButtonCustom>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 animate-fade-in">
+              {getFeaturedProductsByCategory("electronics").map(product => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Fashion Section */}
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-display">Fashion</h2>
+              <ButtonCustom 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate('/category/men-fashion')}
+              >
+                View All
+              </ButtonCustom>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 animate-fade-in">
+              {[...getFeaturedProductsByCategory("men-fashion", 1), ...getFeaturedProductsByCategory("women-fashion", 1)].map(product => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Promotional Banner with enhanced styling */}
           <div className="rounded-xl overflow-hidden relative mb-10 shadow-lg">
             <img 
               src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.0.3" 
               alt="Special Offer" 
               className="w-full h-64 object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/70 to-transparent flex flex-col justify-center pl-10">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent flex flex-col justify-center pl-10">
               <h3 className="text-white text-3xl font-display mb-2">Summer Collection</h3>
               <p className="text-white/90 mb-4 max-w-md">Discover our latest arrivals and enjoy exclusive discounts on selected items.</p>
               <ButtonCustom 
