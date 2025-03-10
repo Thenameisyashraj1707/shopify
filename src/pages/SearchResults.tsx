@@ -9,7 +9,7 @@ import { products } from "@/data/products";
 import { Product } from "@/types/product";
 import { Search, ArrowLeft } from "lucide-react";
 
-// Category-specific placeholder images
+// Category-specific placeholder images - same as in other components for consistency
 const categoryPlaceholders = {
   "electronics": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=600&auto=format&fit=crop",
   "men-fashion": "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&auto=format&fit=crop",

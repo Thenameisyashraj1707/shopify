@@ -35,6 +35,82 @@ export const categories: Category[] = [
   }
 ];
 
+// Define category-specific image collections
+const categoryImages = {
+  "electronics": [
+    "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1588508065123-287b28e013da?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1588058365548-9ded1f5b2d1b?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1623998021446-45cd9b269c95?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1546027658-7aa750153465?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1574755393849-623942496936?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?w=500&auto=format&fit=crop&q=60"
+  ],
+  "men-fashion": [
+    "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1499971856191-1a420a42b498?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1517423738875-5ce310acd3da?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1521341057461-6eb5f40b07ab?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1512353087810-25dfcd100962?w=500&auto=format&fit=crop&q=60"
+  ],
+  "women-fashion": [
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1534126511673-b6899657816a?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1583846783214-7229a91b20ed?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1572804013427-4d7ca7268217?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1551048632-24e444b48a3e?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1548624313-0396c75e4b63?w=500&auto=format&fit=crop&q=60"
+  ],
+  "home-kitchen": [
+    "https://images.unsplash.com/photo-1583845112239-97ef1341b271?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1631048035785-3bbb158f9378?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1529113241001-b495badd8d44?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1584301664887-6382996378a1?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1490323980162-d156723795ed?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1503174971373-b1f69850bded?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1570629557357-5695d814626a?w=500&auto=format&fit=crop&q=60"
+  ],
+  "beauty-personal-care": [
+    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1522338140505-aca19ebaa9df?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1571646034647-52e6ea84b28c?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1570194065650-d99fb4a38b8e?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1631730359585-38a4935786ad?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1620916566256-4e72827ada68?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=500&auto=format&fit=crop&q=60"
+  ],
+  "toys-games": [
+    "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1516627145497-ae6968895b40?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1587117266184-5fa0a4577f8f?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1508896694512-1eade558679c?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1558060370-d5019f04c0b4?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1612036781124-847f8939b154?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&auto=format&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1567822781105-a80d1c625e97?w=500&auto=format&fit=crop&q=60"
+  ]
+};
+
 // The existing products
 const existingProducts: Product[] = [
   // Electronics
@@ -412,13 +488,19 @@ const existingProducts: Product[] = [
 const generateAdditionalProducts = () => {
   const additionalProducts: Product[] = [];
   
+  // Function to get a random image for a specific category
+  const getRandomCategoryImage = (category: string): string => {
+    const images = categoryImages[category as keyof typeof categoryImages];
+    return images[Math.floor(Math.random() * images.length)];
+  };
+  
   // Electronics - add 30 more products
   for (let i = 4; i <= 35; i++) {
     additionalProducts.push({
       id: `e${i}`,
       name: `Smart ${i % 5 === 0 ? 'TV' : i % 4 === 0 ? 'Speaker' : i % 3 === 0 ? 'Tablet' : i % 2 === 0 ? 'Camera' : 'Headphones'} ${100 + i}`,
       price: 99.99 + (i * 10),
-      image: `https://images.unsplash.com/photo-${1590000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      image: getRandomCategoryImage("electronics"),
       description: `High-quality ${i % 5 === 0 ? 'TV' : i % 4 === 0 ? 'speaker' : i % 3 === 0 ? 'tablet' : i % 2 === 0 ? 'camera' : 'headphones'} with exceptional features and modern design.`,
       category: "electronics",
       rating: 4.0 + (Math.random() * 0.9),
@@ -441,7 +523,7 @@ const generateAdditionalProducts = () => {
       id: `m${i}`,
       name: `${i % 5 === 0 ? 'Designer' : i % 4 === 0 ? 'Casual' : i % 3 === 0 ? 'Formal' : i % 2 === 0 ? 'Sport' : 'Slim Fit'} ${i % 6 === 0 ? 'Jacket' : i % 5 === 0 ? 'Pants' : i % 4 === 0 ? 'Shirt' : i % 3 === 0 ? 'Sweater' : i % 2 === 0 ? 'T-Shirt' : 'Hoodie'}`,
       price: 29.99 + (i * 5),
-      image: `https://images.unsplash.com/photo-${1580000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      image: getRandomCategoryImage("men-fashion"),
       description: `Stylish and comfortable ${i % 6 === 0 ? 'jacket' : i % 5 === 0 ? 'pants' : i % 4 === 0 ? 'shirt' : i % 3 === 0 ? 'sweater' : i % 2 === 0 ? 't-shirt' : 'hoodie'} for modern men.`,
       category: "men-fashion",
       rating: 4.0 + (Math.random() * 0.9),
@@ -464,7 +546,7 @@ const generateAdditionalProducts = () => {
       id: `w${i}`,
       name: `${i % 5 === 0 ? 'Elegant' : i % 4 === 0 ? 'Casual' : i % 3 === 0 ? 'Formal' : i % 2 === 0 ? 'Summer' : 'Designer'} ${i % 6 === 0 ? 'Blouse' : i % 5 === 0 ? 'Dress' : i % 4 === 0 ? 'Skirt' : i % 3 === 0 ? 'Jeans' : i % 2 === 0 ? 'Top' : 'Jacket'}`,
       price: 39.99 + (i * 5),
-      image: `https://images.unsplash.com/photo-${1570000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      image: getRandomCategoryImage("women-fashion"),
       description: `Fashionable and stylish ${i % 6 === 0 ? 'blouse' : i % 5 === 0 ? 'dress' : i % 4 === 0 ? 'skirt' : i % 3 === 0 ? 'jeans' : i % 2 === 0 ? 'top' : 'jacket'} for the modern woman.`,
       category: "women-fashion",
       rating: 4.0 + (Math.random() * 0.9),
@@ -487,7 +569,7 @@ const generateAdditionalProducts = () => {
       id: `h${i}`,
       name: `${i % 5 === 0 ? 'Premium' : i % 4 === 0 ? 'Modern' : i % 3 === 0 ? 'Smart' : i % 2 === 0 ? 'Luxury' : 'Compact'} ${i % 6 === 0 ? 'Blender' : i % 5 === 0 ? 'Toaster' : i % 4 === 0 ? 'Cookware Set' : i % 3 === 0 ? 'Dining Table' : i % 2 === 0 ? 'Sofa' : 'Bedding Set'}`,
       price: 59.99 + (i * 8),
-      image: `https://images.unsplash.com/photo-${1560000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      image: getRandomCategoryImage("home-kitchen"),
       description: `High-quality ${i % 6 === 0 ? 'blender' : i % 5 === 0 ? 'toaster' : i % 4 === 0 ? 'cookware set' : i % 3 === 0 ? 'dining table' : i % 2 === 0 ? 'sofa' : 'bedding set'} for your home.`,
       category: "home-kitchen",
       rating: 4.0 + (Math.random() * 0.9),
@@ -509,7 +591,7 @@ const generateAdditionalProducts = () => {
       id: `b${i}`,
       name: `${i % 5 === 0 ? 'Organic' : i % 4 === 0 ? 'Natural' : i % 3 === 0 ? 'Premium' : i % 2 === 0 ? 'Luxury' : 'Professional'} ${i % 6 === 0 ? 'Shampoo' : i % 5 === 0 ? 'Face Cream' : i % 4 === 0 ? 'Perfume' : i % 3 === 0 ? 'Makeup Set' : i % 2 === 0 ? 'Hair Dryer' : 'Skincare Kit'}`,
       price: 19.99 + (i * 4),
-      image: `https://images.unsplash.com/photo-${1550000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      image: getRandomCategoryImage("beauty-personal-care"),
       description: `High-quality ${i % 6 === 0 ? 'shampoo' : i % 5 === 0 ? 'face cream' : i % 4 === 0 ? 'perfume' : i % 3 === 0 ? 'makeup set' : i % 2 === 0 ? 'hair dryer' : 'skincare kit'} for your beauty routine.`,
       category: "beauty-personal-care",
       rating: 4.0 + (Math.random() * 0.9),
@@ -531,7 +613,7 @@ const generateAdditionalProducts = () => {
       id: `t${i}`,
       name: `${i % 5 === 0 ? 'Educational' : i % 4 === 0 ? 'Interactive' : i % 3 === 0 ? 'Creative' : i % 2 === 0 ? 'Adventure' : 'Strategy'} ${i % 6 === 0 ? 'Board Game' : i % 5 === 0 ? 'Action Figure' : i % 4 === 0 ? 'Building Set' : i % 3 === 0 ? 'Plush Toy' : i % 2 === 0 ? 'Puzzle' : 'Remote Control Car'}`,
       price: 24.99 + (i * 2),
-      image: `https://images.unsplash.com/photo-${1540000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      image: getRandomCategoryImage("toys-games"),
       description: `Fun and engaging ${i % 6 === 0 ? 'board game' : i % 5 === 0 ? 'action figure' : i % 4 === 0 ? 'building set' : i % 3 === 0 ? 'plush toy' : i % 2 === 0 ? 'puzzle' : 'remote control car'} for all ages.`,
       category: "toys-games",
       rating: 4.0 + (Math.random() * 0.9),
@@ -550,6 +632,15 @@ const generateAdditionalProducts = () => {
   
   return additionalProducts;
 };
+
+// Also update existing products to use our category-specific images
+existingProducts.forEach(product => {
+  // Get a random image from the product's category
+  const images = categoryImages[product.category as keyof typeof categoryImages];
+  if (images) {
+    product.image = images[Math.floor(Math.random() * images.length)];
+  }
+});
 
 // Combine existing and additional products
 export const products: Product[] = [...existingProducts, ...generateAdditionalProducts()];
