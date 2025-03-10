@@ -1,3 +1,4 @@
+
 import { Product, Category } from "@/types/product";
 
 export const categories: Category[] = [
@@ -19,7 +20,8 @@ export const categories: Category[] = [
   { 
     id: "home-kitchen", 
     name: "Home & Kitchen", 
-    image: "https://images.unsplash.com/photo-1556911220-bda9f7f37446?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+    // Fixed image for Home & Kitchen category
+    image: "https://images.unsplash.com/photo-1583845112239-97ef1341b271?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
   },
   { 
     id: "beauty-personal-care", 
@@ -33,7 +35,8 @@ export const categories: Category[] = [
   }
 ];
 
-export const products: Product[] = [
+// The existing products
+const existingProducts: Product[] = [
   // Electronics
   {
     id: "e1",
@@ -404,6 +407,152 @@ export const products: Product[] = [
     deliveryCharge: 0
   }
 ];
+
+// Function to generate additional products
+const generateAdditionalProducts = () => {
+  const additionalProducts: Product[] = [];
+  
+  // Electronics - add 30 more products
+  for (let i = 4; i <= 35; i++) {
+    additionalProducts.push({
+      id: `e${i}`,
+      name: `Smart ${i % 5 === 0 ? 'TV' : i % 4 === 0 ? 'Speaker' : i % 3 === 0 ? 'Tablet' : i % 2 === 0 ? 'Camera' : 'Headphones'} ${100 + i}`,
+      price: 99.99 + (i * 10),
+      image: `https://images.unsplash.com/photo-${1590000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      description: `High-quality ${i % 5 === 0 ? 'TV' : i % 4 === 0 ? 'speaker' : i % 3 === 0 ? 'tablet' : i % 2 === 0 ? 'camera' : 'headphones'} with exceptional features and modern design.`,
+      category: "electronics",
+      rating: 4.0 + (Math.random() * 0.9),
+      numReviews: 50 + Math.floor(Math.random() * 200),
+      specifications: {
+        brand: `Tech Brand ${i % 10 + 1}`,
+        model: `Model X${i}`,
+        connectivity: "Bluetooth 5.0",
+        warranty: "1 Year"
+      },
+      inStock: Math.random() > 0.2,
+      deliveryEstimate: "2-5 business days",
+      deliveryCharge: i % 5 === 0 ? 9.99 : 0
+    });
+  }
+  
+  // Men's Fashion - add 30 more products
+  for (let i = 4; i <= 35; i++) {
+    additionalProducts.push({
+      id: `m${i}`,
+      name: `${i % 5 === 0 ? 'Designer' : i % 4 === 0 ? 'Casual' : i % 3 === 0 ? 'Formal' : i % 2 === 0 ? 'Sport' : 'Slim Fit'} ${i % 6 === 0 ? 'Jacket' : i % 5 === 0 ? 'Pants' : i % 4 === 0 ? 'Shirt' : i % 3 === 0 ? 'Sweater' : i % 2 === 0 ? 'T-Shirt' : 'Hoodie'}`,
+      price: 29.99 + (i * 5),
+      image: `https://images.unsplash.com/photo-${1580000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      description: `Stylish and comfortable ${i % 6 === 0 ? 'jacket' : i % 5 === 0 ? 'pants' : i % 4 === 0 ? 'shirt' : i % 3 === 0 ? 'sweater' : i % 2 === 0 ? 't-shirt' : 'hoodie'} for modern men.`,
+      category: "men-fashion",
+      rating: 4.0 + (Math.random() * 0.9),
+      numReviews: 50 + Math.floor(Math.random() * 150),
+      specifications: {
+        material: i % 4 === 0 ? "100% Cotton" : i % 3 === 0 ? "Polyester Blend" : i % 2 === 0 ? "Wool" : "Linen",
+        fit: i % 3 === 0 ? "Regular" : i % 2 === 0 ? "Slim" : "Relaxed",
+        sizes: ["S", "M", "L", "XL", "XXL"],
+        colors: ["Black", "Navy", "Gray", "White", "Red"]
+      },
+      inStock: Math.random() > 0.1,
+      deliveryEstimate: "1-3 business days",
+      deliveryCharge: i % 7 === 0 ? 4.99 : 0
+    });
+  }
+  
+  // Women's Fashion - add 30 more products
+  for (let i = 4; i <= 35; i++) {
+    additionalProducts.push({
+      id: `w${i}`,
+      name: `${i % 5 === 0 ? 'Elegant' : i % 4 === 0 ? 'Casual' : i % 3 === 0 ? 'Formal' : i % 2 === 0 ? 'Summer' : 'Designer'} ${i % 6 === 0 ? 'Blouse' : i % 5 === 0 ? 'Dress' : i % 4 === 0 ? 'Skirt' : i % 3 === 0 ? 'Jeans' : i % 2 === 0 ? 'Top' : 'Jacket'}`,
+      price: 39.99 + (i * 5),
+      image: `https://images.unsplash.com/photo-${1570000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      description: `Fashionable and stylish ${i % 6 === 0 ? 'blouse' : i % 5 === 0 ? 'dress' : i % 4 === 0 ? 'skirt' : i % 3 === 0 ? 'jeans' : i % 2 === 0 ? 'top' : 'jacket'} for the modern woman.`,
+      category: "women-fashion",
+      rating: 4.0 + (Math.random() * 0.9),
+      numReviews: 60 + Math.floor(Math.random() * 180),
+      specifications: {
+        material: i % 4 === 0 ? "Silk" : i % 3 === 0 ? "Cotton Blend" : i % 2 === 0 ? "Satin" : "Chiffon",
+        fit: i % 3 === 0 ? "Regular" : i % 2 === 0 ? "Slim" : "Relaxed",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        colors: ["Black", "White", "Red", "Blue", "Pink"]
+      },
+      inStock: Math.random() > 0.15,
+      deliveryEstimate: "1-4 business days",
+      deliveryCharge: i % 8 === 0 ? 5.99 : 0
+    });
+  }
+  
+  // Home & Kitchen - add 30 more products
+  for (let i = 4; i <= 35; i++) {
+    additionalProducts.push({
+      id: `h${i}`,
+      name: `${i % 5 === 0 ? 'Premium' : i % 4 === 0 ? 'Modern' : i % 3 === 0 ? 'Smart' : i % 2 === 0 ? 'Luxury' : 'Compact'} ${i % 6 === 0 ? 'Blender' : i % 5 === 0 ? 'Toaster' : i % 4 === 0 ? 'Cookware Set' : i % 3 === 0 ? 'Dining Table' : i % 2 === 0 ? 'Sofa' : 'Bedding Set'}`,
+      price: 59.99 + (i * 8),
+      image: `https://images.unsplash.com/photo-${1560000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      description: `High-quality ${i % 6 === 0 ? 'blender' : i % 5 === 0 ? 'toaster' : i % 4 === 0 ? 'cookware set' : i % 3 === 0 ? 'dining table' : i % 2 === 0 ? 'sofa' : 'bedding set'} for your home.`,
+      category: "home-kitchen",
+      rating: 4.0 + (Math.random() * 0.9),
+      numReviews: 40 + Math.floor(Math.random() * 160),
+      specifications: {
+        material: i % 4 === 0 ? "Stainless Steel" : i % 3 === 0 ? "Wood" : i % 2 === 0 ? "Glass" : "Cotton",
+        dimensions: `${20 + i}in x ${15 + i}in x ${5 + i}in`,
+        warranty: `${i % 5 + 1} Year${i % 5 !== 0 ? 's' : ''}`
+      },
+      inStock: Math.random() > 0.2,
+      deliveryEstimate: `${i % 5 + 2}-${i % 5 + 7} business days`,
+      deliveryCharge: i % 3 === 0 ? 19.99 : 0
+    });
+  }
+  
+  // Beauty & Personal Care - add 30 more products
+  for (let i = 4; i <= 35; i++) {
+    additionalProducts.push({
+      id: `b${i}`,
+      name: `${i % 5 === 0 ? 'Organic' : i % 4 === 0 ? 'Natural' : i % 3 === 0 ? 'Premium' : i % 2 === 0 ? 'Luxury' : 'Professional'} ${i % 6 === 0 ? 'Shampoo' : i % 5 === 0 ? 'Face Cream' : i % 4 === 0 ? 'Perfume' : i % 3 === 0 ? 'Makeup Set' : i % 2 === 0 ? 'Hair Dryer' : 'Skincare Kit'}`,
+      price: 19.99 + (i * 4),
+      image: `https://images.unsplash.com/photo-${1550000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      description: `High-quality ${i % 6 === 0 ? 'shampoo' : i % 5 === 0 ? 'face cream' : i % 4 === 0 ? 'perfume' : i % 3 === 0 ? 'makeup set' : i % 2 === 0 ? 'hair dryer' : 'skincare kit'} for your beauty routine.`,
+      category: "beauty-personal-care",
+      rating: 4.0 + (Math.random() * 0.9),
+      numReviews: 70 + Math.floor(Math.random() * 200),
+      specifications: {
+        ingredients: i % 2 === 0 ? "Natural" : "Organic",
+        skinType: i % 4 === 0 ? "Dry" : i % 3 === 0 ? "Oily" : i % 2 === 0 ? "Combination" : "All Skin Types",
+        volume: `${i * 10 + 50}ml`
+      },
+      inStock: Math.random() > 0.1,
+      deliveryEstimate: "1-3 business days",
+      deliveryCharge: i % 10 === 0 ? 2.99 : 0
+    });
+  }
+  
+  // Toys & Games - add 30 more products
+  for (let i = 4; i <= 35; i++) {
+    additionalProducts.push({
+      id: `t${i}`,
+      name: `${i % 5 === 0 ? 'Educational' : i % 4 === 0 ? 'Interactive' : i % 3 === 0 ? 'Creative' : i % 2 === 0 ? 'Adventure' : 'Strategy'} ${i % 6 === 0 ? 'Board Game' : i % 5 === 0 ? 'Action Figure' : i % 4 === 0 ? 'Building Set' : i % 3 === 0 ? 'Plush Toy' : i % 2 === 0 ? 'Puzzle' : 'Remote Control Car'}`,
+      price: 24.99 + (i * 2),
+      image: `https://images.unsplash.com/photo-${1540000000000 + i * 1000}?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3`,
+      description: `Fun and engaging ${i % 6 === 0 ? 'board game' : i % 5 === 0 ? 'action figure' : i % 4 === 0 ? 'building set' : i % 3 === 0 ? 'plush toy' : i % 2 === 0 ? 'puzzle' : 'remote control car'} for all ages.`,
+      category: "toys-games",
+      rating: 4.0 + (Math.random() * 0.9),
+      numReviews: 30 + Math.floor(Math.random() * 170),
+      specifications: {
+        age: `${i % 12 + 3}+`,
+        players: i % 6 === 0 ? `${i % 4 + 1}-${i % 4 + 4}` : "1+",
+        batteries: i % 3 === 0 ? "Required" : "Not Required",
+        material: i % 4 === 0 ? "Plastic" : i % 3 === 0 ? "Wood" : i % 2 === 0 ? "Plush" : "Mixed"
+      },
+      inStock: Math.random() > 0.15,
+      deliveryEstimate: "2-4 business days",
+      deliveryCharge: i % 9 === 0 ? 3.99 : 0
+    });
+  }
+  
+  return additionalProducts;
+};
+
+// Combine existing and additional products
+export const products: Product[] = [...existingProducts, ...generateAdditionalProducts()];
 
 export const getProductsByCategory = (categoryId: string): Product[] => {
   return products.filter(product => product.category === categoryId);
