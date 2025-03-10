@@ -22,6 +22,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [showPayment, setShowPayment] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   if (!product) {
     return (
@@ -88,10 +89,16 @@ const ProductDetails = () => {
     }, 1500);
   };
   
+  const handleImageError = () => {
+    setImageError(true);
+  };
+  
   // Get related products based on category
   const relatedProducts = getProductsByCategory(product.category)
     .filter(p => p.id !== product.id)
     .slice(0, 4);
+  
+  const placeholderImage = "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
   
   return (
     <AnimatedLayout>
@@ -110,25 +117,28 @@ const ProductDetails = () => {
             <div className="space-y-4">
               <div className="aspect-square rounded-lg overflow-hidden bg-white shadow-md">
                 <img 
-                  src={product.image} 
+                  src={imageError ? placeholderImage : product.image} 
                   alt={product.name} 
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={handleImageError}
                 />
               </div>
               <div className="grid grid-cols-4 gap-2">
                 <div className="aspect-square rounded-md overflow-hidden border-2 border-primary">
                   <img 
-                    src={product.image} 
+                    src={imageError ? placeholderImage : product.image} 
                     alt={product.name} 
                     className="w-full h-full object-cover cursor-pointer"
+                    onError={handleImageError}
                   />
                 </div>
                 {[...Array(3)].map((_, i) => (
                   <div key={i} className="aspect-square rounded-md overflow-hidden border border-muted">
                     <img 
-                      src={product.image} 
+                      src={imageError ? placeholderImage : product.image} 
                       alt={`${product.name} view ${i+2}`} 
                       className="w-full h-full object-cover cursor-pointer opacity-70 hover:opacity-100 transition-opacity"
+                      onError={handleImageError}
                     />
                   </div>
                 ))}

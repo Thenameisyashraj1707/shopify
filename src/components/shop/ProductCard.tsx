@@ -17,6 +17,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   const handleViewDetails = () => {
     if (isCategory) {
@@ -39,6 +40,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
     }
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   // For category cards
   if (isCategory) {
     return (
@@ -50,9 +55,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
       >
         <div className="aspect-square overflow-hidden relative">
           <img 
-            src={product.image} 
+            src={imageError ? "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" : product.image} 
             alt={product.name} 
             className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
+            onError={handleImageError}
           />
           <div className={`absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
             <ButtonCustom 
@@ -103,9 +109,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
     >
       <div className="aspect-square overflow-hidden relative">
         <img 
-          src={productItem.image} 
+          src={imageError ? "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&auto=format&fit=crop" : productItem.image} 
           alt={productItem.name} 
           className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
+          onError={handleImageError}
         />
         
         {!productItem.inStock && (
