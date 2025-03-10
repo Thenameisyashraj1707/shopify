@@ -13,6 +13,16 @@ interface ProductCardProps {
   isCategory?: boolean;
 }
 
+// Category-specific placeholder images
+const categoryPlaceholders = {
+  "electronics": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=600&auto=format&fit=crop",
+  "men-fashion": "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&auto=format&fit=crop",
+  "women-fashion": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&auto=format&fit=crop",
+  "home-kitchen": "https://images.unsplash.com/photo-1583845112239-97ef1341b271?w=600&auto=format&fit=crop",
+  "beauty-personal-care": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop",
+  "toys-games": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&auto=format&fit=crop",
+};
+
 export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = false }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -44,6 +54,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
     setImageError(true);
   };
 
+  // Get appropriate placeholder image based on category
+  const getPlaceholderImage = (categoryId: string) => {
+    return categoryPlaceholders[categoryId as keyof typeof categoryPlaceholders] || 
+      "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&auto=format&fit=crop";
+  };
+
   // For category cards
   if (isCategory) {
     return (
@@ -55,7 +71,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
       >
         <div className="aspect-square overflow-hidden relative">
           <img 
-            src={imageError ? "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" : product.image} 
+            src={imageError ? categoryPlaceholders[product.id as keyof typeof categoryPlaceholders] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" : product.image} 
             alt={product.name} 
             className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
             onError={handleImageError}
@@ -109,7 +125,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isCategory = 
     >
       <div className="aspect-square overflow-hidden relative">
         <img 
-          src={imageError ? "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&auto=format&fit=crop" : productItem.image} 
+          src={imageError ? getPlaceholderImage(productItem.category) : productItem.image} 
           alt={productItem.name} 
           className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
           onError={handleImageError}

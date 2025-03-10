@@ -9,6 +9,16 @@ import { products } from "@/data/products";
 import { Product } from "@/types/product";
 import { Search, ArrowLeft } from "lucide-react";
 
+// Category-specific placeholder images
+const categoryPlaceholders = {
+  "electronics": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=600&auto=format&fit=crop",
+  "men-fashion": "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&auto=format&fit=crop",
+  "women-fashion": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&auto=format&fit=crop",
+  "home-kitchen": "https://images.unsplash.com/photo-1583845112239-97ef1341b271?w=600&auto=format&fit=crop",
+  "beauty-personal-care": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop",
+  "toys-games": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&auto=format&fit=crop",
+};
+
 const SearchResults = () => {
   const navigate = useNavigate();
   const location = useLocation();

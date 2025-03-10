@@ -13,6 +13,16 @@ import { Separator } from "@/components/ui/separator";
 import { ProductCard } from "@/components/shop/ProductCard";
 import PaymentOptions from "@/components/shop/PaymentOptions";
 
+// Category-specific placeholder images
+const categoryPlaceholders = {
+  "electronics": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=800&auto=format&fit=crop",
+  "men-fashion": "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&auto=format&fit=crop",
+  "women-fashion": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop",
+  "home-kitchen": "https://images.unsplash.com/photo-1583845112239-97ef1341b271?w=800&auto=format&fit=crop",
+  "beauty-personal-care": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop",
+  "toys-games": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&auto=format&fit=crop",
+};
+
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -98,7 +108,10 @@ const ProductDetails = () => {
     .filter(p => p.id !== product.id)
     .slice(0, 4);
   
-  const placeholderImage = "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
+  const getPlaceholderImage = (categoryId: string) => {
+    return categoryPlaceholders[categoryId as keyof typeof categoryPlaceholders] || 
+      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
+  };
   
   return (
     <AnimatedLayout>
@@ -117,7 +130,7 @@ const ProductDetails = () => {
             <div className="space-y-4">
               <div className="aspect-square rounded-lg overflow-hidden bg-white shadow-md">
                 <img 
-                  src={imageError ? placeholderImage : product.image} 
+                  src={imageError ? getPlaceholderImage(product.category) : product.image} 
                   alt={product.name} 
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   onError={handleImageError}
@@ -126,7 +139,7 @@ const ProductDetails = () => {
               <div className="grid grid-cols-4 gap-2">
                 <div className="aspect-square rounded-md overflow-hidden border-2 border-primary">
                   <img 
-                    src={imageError ? placeholderImage : product.image} 
+                    src={imageError ? getPlaceholderImage(product.category) : product.image} 
                     alt={product.name} 
                     className="w-full h-full object-cover cursor-pointer"
                     onError={handleImageError}
@@ -135,7 +148,7 @@ const ProductDetails = () => {
                 {[...Array(3)].map((_, i) => (
                   <div key={i} className="aspect-square rounded-md overflow-hidden border border-muted">
                     <img 
-                      src={imageError ? placeholderImage : product.image} 
+                      src={imageError ? getPlaceholderImage(product.category) : product.image} 
                       alt={`${product.name} view ${i+2}`} 
                       className="w-full h-full object-cover cursor-pointer opacity-70 hover:opacity-100 transition-opacity"
                       onError={handleImageError}
