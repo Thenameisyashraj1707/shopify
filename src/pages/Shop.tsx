@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { AnimatedLayout } from "@/components/layout/AnimatedLayout";
 import { Logo } from "@/components/ui/logo";
@@ -10,6 +9,7 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { categories, getProductById, getProductsByCategory, products } from "@/data/products";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { ChatBotButton } from "@/components/ai/ChatBotButton";
 
 const mockUser = {
   name: "Alex Johnson",
@@ -23,7 +23,6 @@ const Shop = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
-  // Update filtered products when search query changes
   useEffect(() => {
     if (searchQuery.trim()) {
       const filtered = products.filter(product => 
@@ -47,7 +46,6 @@ const Shop = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       toast.success(`Searching for: ${searchQuery}`);
-      // Navigate to search results with query parameter
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
@@ -72,14 +70,12 @@ const Shop = () => {
     }
   };
 
-  // Get a few products from each category for display
   const getFeaturedProductsByCategory = (categoryId: string, count: number = 2) => {
     return getProductsByCategory(categoryId).slice(0, count);
   };
 
   return (
     <AnimatedLayout withPadding={false}>
-      {/* Header with gradient background */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 backdrop-blur-md border-b shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Logo size="sm" onClick={() => navigate('/')} className="cursor-pointer" />
@@ -134,7 +130,6 @@ const Shop = () => {
 
       <main className="pt-20 pb-16 px-4 bg-gradient-to-b from-blue-50 to-white">
         <div className="container mx-auto">
-          {/* Search bar with enhanced styling */}
           <form onSubmit={handleSearch} className="relative mb-8 max-w-2xl mx-auto">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <input 
@@ -153,7 +148,6 @@ const Shop = () => {
             </button>
           </form>
           
-          {/* Search Results */}
           {showSearchResults && (
             <div className="mb-8 animate-fade-in bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-4">
@@ -192,7 +186,6 @@ const Shop = () => {
             </div>
           )}
 
-          {/* Categories with enhanced styling */}
           <div className="mb-10">
             <h2 className="text-2xl font-display mb-6 text-center">Browse Categories</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-5">
@@ -220,7 +213,6 @@ const Shop = () => {
             </div>
           </div>
 
-          {/* Featured Section with more products */}
           {!showSearchResults && (
             <>
               <div className="mb-10">
@@ -236,7 +228,6 @@ const Shop = () => {
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 animate-fade-in">
-                  {/* Get actual products from the data for featured section */}
                   {[
                     getProductById("e1"), 
                     getProductById("m1"), 
@@ -253,7 +244,6 @@ const Shop = () => {
                 </div>
               </div>
 
-              {/* Electronics Section */}
               <div className="mb-10">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-display">Electronics</h2>
@@ -276,7 +266,6 @@ const Shop = () => {
                 </div>
               </div>
 
-              {/* Fashion Section */}
               <div className="mb-10">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-display">Fashion</h2>
@@ -299,7 +288,6 @@ const Shop = () => {
                 </div>
               </div>
 
-              {/* Home & Kitchen Section */}
               <div className="mb-10">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-display">Home & Kitchen</h2>
@@ -322,7 +310,6 @@ const Shop = () => {
                 </div>
               </div>
 
-              {/* Promotional Banner with enhanced styling */}
               <div className="rounded-xl overflow-hidden relative mb-10 shadow-lg">
                 <img 
                   src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.0.3" 
@@ -345,6 +332,8 @@ const Shop = () => {
           )}
         </div>
       </main>
+      
+      <ChatBotButton />
     </AnimatedLayout>
   );
 };
